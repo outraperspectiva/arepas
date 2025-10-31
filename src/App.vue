@@ -9,9 +9,8 @@ function increment() {
 }
 
 let id = 0
-
 const newTodo = ref('')
-const todoS = ref([])
+const todos = ref([])
 
 function addTodo() {
   todos.value.push({ id: id++, text: newTodo.value })
@@ -21,6 +20,8 @@ function addTodo() {
 function removeTodo(todo) {
   todos.value = todos.value.filter((t) => t !== todo)
 }
+
+const selected = ref('')
 </script>
 
 <template>
@@ -29,6 +30,14 @@ function removeTodo(todo) {
 
     <div class="wrapper">
       <HelloWorld msg="Primeira Página!" />
+      <h4>Selecione a Bebida</h4>
+      <select v-model="selected">
+        <option disabled value="Refrigerante">Selecione</option>
+        <option>Refrigerante</option>
+        <option>Água</option>
+        <option>Cerveja</option>
+      </select>
+      <p>{{ selected }}</p>
       <button @click="increment">Quantidade: {{ count }}</button>
       <form @submit.prevent="addTodo">
         <input v-model="newTodo" required placeholder="Item do Pedido" />
@@ -40,13 +49,13 @@ function removeTodo(todo) {
           <button @click="removeTodo(todo)">X</button>
         </li>
       </ul>
+
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">Pedidos</RouterLink>
       </nav>
     </div>
   </header>
-
   <RouterView />
 </template>
 
