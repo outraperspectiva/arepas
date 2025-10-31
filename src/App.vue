@@ -1,6 +1,26 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
+import { ref } from 'vue'
+const count = ref(0)
+
+function increment() {
+  count.value++
+}
+
+let id = 0
+
+const newTodo = ref('')
+const todoS = ref([])
+
+function addTodo() {
+  todos.value.push({ id: id++, text: newTodo.value })
+  newTodo.value = ''
+}
+
+function removeTodo(todo) {
+  todos.value = todos.value.filter((t) => t !== todo)
+}
 </script>
 
 <template>
@@ -9,7 +29,17 @@ import HelloWorld from './components/HelloWorld.vue'
 
     <div class="wrapper">
       <HelloWorld msg="Primeira Página!" />
-
+      <button @click="increment">Quantidade: {{ count }}</button>
+      <form @submit.prevent="addTodo">
+        <input v-model="newTodo" required placeholder="Item do Pedido" />
+        <button>Adicionar a Lista de Pedidos</button>
+      </form>
+      <ul>
+        <li v-for="todo in todos" :key="todo.id">
+          {{ todo.text }}
+          <button @click="removeTodo(todo)">X</button>
+        </li>
+      </ul>
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">Pedidos</RouterLink>
